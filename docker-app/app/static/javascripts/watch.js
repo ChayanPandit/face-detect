@@ -21,6 +21,7 @@ const stream = [];
 const FRAME_RATE = 25;
 let count = 0;
 
+
 const average = (arr) => {
     let value = 0;
     let length = 0;
@@ -53,8 +54,10 @@ socket.on('frameoutput0', (data) => {
     image.src = `data:image/jpg;base64,${data.result}`;
     if(data.multiple_face == "-1"){
         multiface.textContent = 'Not Defined'
+    }else if(data.multiple_face == 1){
+        multiface.textContent = `Yes`
     }else{
-        multiface.textContent = `${data.multiple_face*100}%`
+        multiface.textContent = 'No'
     }
     
     if(data.live_confidence == "-1")
@@ -66,7 +69,7 @@ socket.on('frameoutput0', (data) => {
         cover.textContent = 'Not Defined'
         uncover.textContent = 'Not Defined'
     }else{
-        cover.textContent = data.cover_ratio
+        cover.textContent =  `${(data.cover_ratio)*100}%`
         uncover.textContent = `${(1 - data.cover_ratio)*100}%`
     }
 })
