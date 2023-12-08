@@ -91,7 +91,7 @@ def emit_function(data):
     live_confidence = -1
     cover_ratio = -1
     try:
-        result, multiple_face, live_confidence, cover_ratio = combined(base64_data)
+        result, multiple_face, live_confidence, cover_ratio = live_spoof(base64_data)
     except Exception as e:
         print(e)
 

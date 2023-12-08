@@ -19,7 +19,7 @@ base_options = python.BaseOptions(model_asset_path='detector.tflite')
 options = vision.FaceDetectorOptions(base_options=base_options)
 detector_ = vision.FaceDetector.create_from_options(options)
 mask_model = tf.keras.models.load_model('mask_model3.h5')
-model = tf.keras.models.load_model('keras_model2.h5',compile=False)
+model = tf.keras.models.load_model('keras_model_200.h5',compile=False)
 classNames = ["Live","Spoof"]
 detector = FaceDetector()
 
