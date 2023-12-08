@@ -19,7 +19,7 @@ base_options = python.BaseOptions(model_asset_path='detector.tflite')
 options = vision.FaceDetectorOptions(base_options=base_options)
 detector_ = vision.FaceDetector.create_from_options(options)
 mask_model = tf.keras.models.load_model('mask_model3.h5')
-model = tf.keras.models.load_model('keras_model_200.h5',compile=False)
+model = tf.keras.models.load_model('new_model.h5',compile=False)
 classNames = ["Live","Spoof"]
 detector = FaceDetector()
 
@@ -612,8 +612,8 @@ def combined(encoded_string):
               color = (0, 0, 255)
               print(f"Spoof Confidence = {confidence_score}, Class = {cls}")
 
-        cvzone.cornerRect(img, (x, y, w, h),colorC=color,colorR=color)
-        cvzone.putTextRect(img, f'{classNames[cls].upper()} {int(confidence_score*100)}%',(max(0, x), max(35, y)), scale=2, thickness=4,colorR=color,colorB=color)
+        # cvzone.cornerRect(img, (x, y, w, h),colorC=color,colorR=color)
+        # cvzone.putTextRect(img, f'{classNames[cls].upper()} {int(confidence_score*100)}%',(max(0, x), max(35, y)), scale=2, thickness=4,colorR=color,colorB=color)
         
         
         return (convert_to_base64(img), 0, live_percentage, cover_ratio)
