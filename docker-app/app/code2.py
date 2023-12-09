@@ -19,7 +19,7 @@ base_options = python.BaseOptions(model_asset_path='detector.tflite')
 options = vision.FaceDetectorOptions(base_options=base_options)
 detector_ = vision.FaceDetector.create_from_options(options)
 mask_model = tf.keras.models.load_model('mask_model3.h5')
-model = tf.keras.models.load_model('new_model.h5',compile=False)
+model = tf.keras.models.load_model('gyanam2.h5',compile=False)
 classNames = ["Live","Spoof"]
 detector = FaceDetector()
 
@@ -413,6 +413,8 @@ def covered_uncovered(encoded_string):
 
         #Get the probabilites of the mask scenario
         prob_arr = face_mask(image)
+        
+        print("Prob arr: ",prob_arr)
 
         #Get the facial landmarks
         face_lndmk = face_landmarks(img)
@@ -429,6 +431,7 @@ def covered_uncovered(encoded_string):
         #Calculations for the upper limit of mask's bounding box
         left_eye_x, left_eye_y = face_lndmk[0]
         right_eye_x, right_eye_y = face_lndmk[1]
+
         nose_x, nose_y = face_lndmk[2]
         lips_x, lips_y = face_lndmk[3]
 
@@ -443,11 +446,14 @@ def covered_uncovered(encoded_string):
         mask_bbox_y1 = int((1 + offsetMask/100)*mask_bbox_y1)
         
         mask_bbox_y2 = int(without_mask_y)
-       
+        
+        print("HIII")
+        
         mask_bbox_x1 = x
         mask_bbox_w = w
         mask_bbox_h = max(0, mask_bbox_y2-mask_bbox_y1)
         cover_ratio = mask_bbox_h / h
+        
         cvzone.cornerRect(img, (mask_bbox_x1, mask_bbox_y1, mask_bbox_w, mask_bbox_h),colorC=(0, 255, 0),colorR=(0, 255, 0))
         cvzone.cornerRect(img, (x, y, w, h),colorC=(255, 0, 0),colorR=(255, 0, 0))
         
@@ -461,7 +467,6 @@ def covered_uncovered(encoded_string):
 
     
     return (encoded_string, 0, -1, -1)
-
 
 
 def combined(encoded_string): 
@@ -557,11 +562,11 @@ def combined(encoded_string):
         # cvzone.cornerRect(img, (mask_bbox_x1, mask_bbox_y1, mask_bbox_w, mask_bbox_h),colorC=(0, 255, 0),colorR=(0, 255, 0))
         # cvzone.cornerRect(img, (x, y, w, h),colorC=(255, 0, 0),colorR=(255, 0, 0))
         
-        #cv2.imwrite('hello.jpg', img)
-        #Return the encoded image back to the frontend
+        # #cv2.imwrite('hello.jpg', img)
+        # #Return the encoded image back to the frontend
     
         offsetPercentageW = 10
-        offsetPercentageH = 20
+        offsetPercentageH = 15
         
         offsetW = (offsetPercentageW/100)*w
         x = int(x - offsetW)
@@ -612,8 +617,8 @@ def combined(encoded_string):
               color = (0, 0, 255)
               print(f"Spoof Confidence = {confidence_score}, Class = {cls}")
 
-        # cvzone.cornerRect(img, (x, y, w, h),colorC=color,colorR=color)
-        # cvzone.putTextRect(img, f'{classNames[cls].upper()} {int(confidence_score*100)}%',(max(0, x), max(35, y)), scale=2, thickness=4,colorR=color,colorB=color)
+        cvzone.cornerRect(img, (x, y, w, h),colorC=color,colorR=color)
+        cvzone.putTextRect(img, f'{classNames[cls].upper()} {int(confidence_score*100)}%',(max(0, x), max(35, y)), scale=2, thickness=4,colorR=color,colorB=color)
         
         
         return (convert_to_base64(img), 0, live_percentage, cover_ratio)
