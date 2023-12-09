@@ -620,7 +620,9 @@ def combined(encoded_string):
         cvzone.cornerRect(img, (x, y, w, h),colorC=color,colorR=color)
         cvzone.putTextRect(img, f'{classNames[cls].upper()} {int(confidence_score*100)}%',(max(0, x), max(35, y)), scale=2, thickness=4,colorR=color,colorB=color)
         
-        
+        if classNames[cls]=='Spoof':
+            cover_ratio=-1
+            
         return (convert_to_base64(img), 0, live_percentage, cover_ratio)
 
     
